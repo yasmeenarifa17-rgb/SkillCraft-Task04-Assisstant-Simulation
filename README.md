@@ -23,6 +23,9 @@ The project demonstrates how Prompt Engineering, Persona Design, and Assistant S
 
 ---
 
+## Live :
+https://socriaticcodingtutor.vercel.app/
+
 ## ✨ Key Features
 
 * Socratic teaching methodology
