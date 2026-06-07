@@ -15,17 +15,6 @@
 
 </p>
 
-<p align="center">
-  <img src="assets/banner.png" width="100%">
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Prompt%20Engineering-Project-blue?style=for-the-badge">
-  <img src="https://img.shields.io/badge/AI-Socratic%20Tutor-green?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Frontend-HTML%20CSS%20JS-orange?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge">
-</p>
-
 ## 📖 Overview
 
 Socratic Coding Tutor is an AI-inspired educational chatbot designed to teach programming concepts through guided questioning rather than direct answers.
@@ -111,7 +100,7 @@ Typography — Fraunces (italic serif headings) + DM Mono (monospace body)
 Palette — warm amber accent (#c9a96e) on a deep dark background
 Fonts — loaded from Google Fonts; requires an internet connection on first load
 
-## flowchart TD
+## flowchart ID
 
 A[Student Question]
 --> B[Keyword Detection]
