@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Socratic Coding Tutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e2a;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.14);
+    --text: #e8e4dc;
+    --text-muted: #7a7a8a;
+    --text-dim: #4a4a5a;
+    --accent: #c9a96e;
+    --accent-dim: rgba(201,169,110,0.12);
+    --accent-glow: rgba(201,169,110,0.06);
+    --user-bg: #1e2130;
+    --tutor-bg: #141820;
+    --tag: #2a1f10;
+    --tag-text: #c9a96e;
+    --green: #5db896;
+    --green-dim: rgba(93,184,150,0.1);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Fraunces', serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 300;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+    gap: 12px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(201,169,110,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 16px; height: 16px; }
+
+  .header-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text);
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  .header-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--tag);
+    border: 1px solid rgba(201,169,110,0.2);
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(93,184,150,0.6);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .status-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Chat area */
+  .chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 0;
+    scroll-behavior: smooth;
+  }
+
+  .chat-container::-webkit-scrollbar { width: 4px; }
+  .chat-container::-webkit-scrollbar-track { background: transparent; }
+  .chat-container::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+  .messages-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Welcome */
+  .welcome {
+    text-align: center;
+    padding: 32px 20px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .welcome-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .welcome-icon svg { width: 24px; height: 24px; }
+
+  .welcome h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .welcome p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .quick-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius-sm);
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .quick-btn:hover {
+    color: var(--accent);
+    border-color: rgba(201,169,110,0.3);
+    background: var(--accent-glow);
+  }
+
+  /* Messages */
+  .msg {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    animation: msgIn 0.3s ease both;
+  }
+
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.user { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+
+  .avatar.tutor {
+    background: var(--accent-dim);
+    border: 1px solid rgba(201,169,110,0.25);
+    color: var(--accent);
+  }
+
+  .avatar.user-av {
+    background: var(--green-dim);
+    border: 1px solid rgba(93,184,150,0.2);
+    color: var(--green);
+  }
+
+  .bubble {
+    max-width: 78%;
+    min-width: 60px;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+
+  .msg.user .bubble { text-align: right; }
+
+  .bubble-inner {
+    display: inline-block;
+    padding: 11px 16px;
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    text-align: left;
+  }
+
+  .msg.tutor .bubble-inner {
+    background: var(--tutor-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.user .bubble-inner {
+    background: var(--user-bg);
+    border: 1px solid rgba(93,184,150,0.12);
+    color: var(--text);
+    border-bottom-right-radius: 4px;
+  }
+
+  .bubble-meta {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 5px;
+    letter-spacing: 0.04em;
+  }
+
+  .msg.user .bubble-meta { padding-right: 2px; }
+  .msg.tutor .bubble-meta { padding-left: 2px; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border-bright);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  /* Thinking indicator */
+  .thinking {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    animation: msgIn 0.3s ease both;
+  }
+
+  .thinking-dots {
+    display: flex;
+    gap: 4px;
+    padding: 14px 16px;
+    background: var(--tutor-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    border-bottom-left-radius: 4px;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Divider */
+  .day-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0 16px;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .day-divider::before, .day-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Input area */
+  .input-area {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 16px 20px 20px;
+    flex-shrink: 0;
+  }
+
+  .input-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .input-box {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--text);
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    min-height: 48px;
+    max-height: 160px;
+    overflow-y: auto;
+    transition: border-color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .input-box::placeholder { color: var(--text-dim); }
+
+  .input-box:focus {
+    border-color: rgba(201,169,110,0.35);
+    background: rgba(26,30,42,0.8);
+  }
+
+  .send-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-dim);
+    border: 1px solid rgba(201,169,110,0.3);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .send-btn:hover {
+    background: rgba(201,169,110,0.2);
+    border-color: rgba(201,169,110,0.5);
+  }
+
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .send-btn svg { width: 18px; height: 18px; }
+
+  .hint {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  .hint span { color: var(--text-muted); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header { padding: 12px 16px; }
+    .header-tag { display: none; }
+    .messages-wrap { padding: 0 12px; }
+    .bubble { max-width: 88%; }
+    .input-area { padding: 12px 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round">
+        <circle cx="8" cy="8" r="6.5"/>
+        <path d="M6 6c0-1.1.9-2 2-2s2 .9 2 2c0 1.5-2 2-2 3"/>
+        <circle cx="8" cy="12" r="0.7" fill="#c9a96e" stroke="none"/>
+      </svg>
+    </div>
+    <span class="header-title">Socratic Tutor</span>
+    <span class="header-tag">coding</span>
+  </div>
+  <div class="header-right">
+    <button id="clearBtn" class="clear-btn">
+  Clear
+</button>
+    <div class="status-dot"></div>
+    <span class="status-label">ready</span>
+  </div>
+</header>
+
+<div class="chat-container" id="chatContainer">
+  <div class="messages-wrap" id="messages">
+    <div class="welcome" id="welcome">
+      <div class="welcome-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round">
+          <path d="M9 9l3-3 3 3M9 15l3 3 3-3"/>
+          <rect x="3" y="3" width="18" height="18" rx="4"/>
+        </svg>
+      </div>
+      <h2>What shall we explore?</h2>
+      <p>I won't give you answers directly — instead, I'll guide you with questions that lead you to the insight yourself. That's how understanding truly sticks.</p>
+      <div class="quick-prompts">
+        <button class="quick-btn" onclick="sendQuick(this)">How does recursion work?</button>
+        <button class="quick-btn" onclick="sendQuick(this)">What is a closure in JS?</button>
+        <button class="quick-btn" onclick="sendQuick(this)">Explain Big O notation</button>
+        <button class="quick-btn" onclick="sendQuick(this)">How do promises work?</button>
+        <button class="quick-btn" onclick="sendQuick(this)">What's the difference between == and ===?</button>
+        <button class="quick-btn" onclick="sendQuick(this)">How does a hash map work?</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="input-area">
+  <div class="input-wrap">
+    <div class="input-row">
+      <textarea
+        class="input-box"
+        id="userInput"
+        placeholder="Ask a coding question…"
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"
+      ></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send">
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="9" y1="15" x2="9" y2="3"/>
+          <polyline points="4,8 9,3 14,8"/>
+        </svg>
+      </button>
+    </div>
+    <div class="hint"><span>Enter</span> to send · <span>Shift+Enter</span> for new line</div>
+  </div>
+</div>
+
+<script>
+const RESPONSES = {
+  recursion: [
+    "Interesting question! Before I explain, let me ask you this: when you look up a word in the dictionary and find another word you don't know, what do you do? How might that process relate to a function calling itself?",
+    "Think about a set of Russian nesting dolls — each one contains a smaller version of itself. If you wanted to count all the dolls, what steps would you take, and when would you stop looking inside?",
+    "Have you ever computed a factorial by hand? Walk me through how you'd calculate 4! without a computer — what pattern do you notice in your own steps?"
+  ],
+  closure: [
+    "Great topic! Let me ask first: if a function creates a variable, what do you think normally happens to that variable when the function finishes running? And what might be special about a function defined *inside* another function?",
+    "Imagine a backpack. When a function is created inside another function, what 'items' might it carry in its backpack even after the outer function is done? What variables might it remember?",
+    "Consider this: what's the difference between a variable that belongs to a function vs. one that's shared by everyone? How might an inner function 'hold onto' something the outer function created?"
+  ],
+  bigO: [
+    "Before we dive in, let me ask: if you had to sort 10 playing cards by hand vs. 1,000 cards — does the extra time grow by the same amount, or differently? What does that growth pattern tell you?",
+    "Imagine two chefs, one who checks every ingredient every time, and one who only checks what's needed. How would you describe the *relationship* between their effort and the number of ingredients? That's the core of what we're exploring.",
+    "Think about searching for a name in a phone book. What's the fastest strategy you can think of, and how many pages might you need to check in the worst case compared to the book's total size?"
+  ],
+  promise: [
+    "Let me ask you this: when you order food at a restaurant, do you stand frozen at the counter until it's ready, or do you sit down and do other things? How might JavaScript handle waiting for slow operations in a similar way?",
+    "What problem do you think would occur if JavaScript had to completely stop and wait every time it fetched data from the internet? How does that motivate the idea of a 'promise' of a future value?",
+    "Think about a promise in real life — when someone says 'I'll get back to you.' What are the possible outcomes of that promise? How might those map onto the states a `Promise` object can be in?"
+  ],
+  equality: [
+    "Interesting question! Consider this: in JavaScript, what do you think might happen when you compare the number `0` to the string `'0'` with `==`? Why might that be surprising, and what problem could it cause?",
+    "Before I explain, tell me: what do you think the word 'type' means in the phrase 'type coercion'? If JavaScript tries to be helpful by converting types automatically, when might that helpfulness backfire?",
+    "Imagine two people saying 'I have 5 apples' — one is holding actual apples, the other just wrote '5' on a piece of paper. Are those the same? How might that distinction relate to comparing a number and a string in JavaScript?"
+  ],
+  hashmap: [
+    "Let's think about a library. If every book were stored randomly and you had to check every shelf to find one, how long would that take? Now, what if books were always placed on a shelf determined by their title's first letter? What changes?",
+    "Here's a question: what do you think a 'key' and a 'value' might mean in a data structure? And why might having a very fast way to go from key → shelf location be useful when you have millions of entries?",
+    "Consider a coat check at a restaurant — you hand over your coat and get a numbered ticket. Later, you give back the ticket and get your coat instantly. What's the 'magic' that makes this fast, and how might a similar trick work in memory?"
+  ],
+  default: [
+    "That's a great thing to explore! Before I answer directly, can you tell me what you already know about this topic? Even a rough guess or intuition helps — what do you *think* might be true?",
+    "Interesting question! Let me turn it back to you first: can you think of a real-world analogy for what you're describing? Sometimes the best way to understand code is to find a parallel in everyday life.",
+    "Good question! Let's break it down together. What's the smallest, simplest version of this concept you can imagine? If you had to explain it to someone with no coding background, where would you even start?",
+    "Before we dive in, I'd love to know: what problem do you think this concept was invented to solve? Understanding the *why* often makes the *what* click much faster — what's your intuition?",
+    "Wonderful to explore! Here's a thought experiment for you: if this feature or concept didn't exist in programming, what would be painful or impossible to do? What gap does it fill?"
+  ]
+};
+
+function pickResponse(text) {
+  const t = text.toLowerCase();
+  if (t.includes('recursion') || t.includes('recursive')) return rand(RESPONSES.recursion);
+  if (t.includes('closure')) return rand(RESPONSES.closure);
+  if (t.includes('big o') || t.includes('bigo') || t.includes('complexity') || t.includes('notation')) return rand(RESPONSES.bigO);
+  if (t.includes('promise') || t.includes('async') || t.includes('await')) return rand(RESPONSES.promise);
+  if (t.includes('===') || t.includes('==') || t.includes('equality') || t.includes('equal')) return rand(RESPONSES.equality);
+  if (t.includes('hash') || t.includes('map') || t.includes('dictionary') || t.includes('hashmap')) return rand(RESPONSES.hashmap);
+  return rand(RESPONSES.default);
+}
+
+function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function formatTime() {
+  return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/`([^`]+)`/g,'<code>$1</code>');
+}
+
+function addMsg(role, text) {
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.remove();
+
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const isUser = role === 'user';
+  const initials = isUser ? 'you' : 'soc';
+  div.innerHTML = `
+    <div class="avatar ${isUser ? 'user-av' : 'tutor'}">${initials}</div>
+    <div class="bubble">
+      <div class="bubble-inner">${escapeHtml(text)}</div>
+      <div class="bubble-meta">${formatTime()}</div>
+    </div>`;
+  msgs.appendChild(div);
+  scrollBottom();
+}
+
+function showThinking() {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'thinking';
+  div.id = 'thinking';
+  div.innerHTML = `
+    <div class="avatar tutor">soc</div>
+    <div class="thinking-dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>`;
+  msgs.appendChild(div);
+  scrollBottom();
+}
+
+function removeThinking() {
+  const t = document.getElementById('thinking');
+  if (t) t.remove();
+}
+
+function scrollBottom() {
+  const c = document.getElementById('chatContainer');
+  setTimeout(() => c.scrollTo({ top: c.scrollHeight, behavior: 'smooth' }), 50);
+}
+
+function setLoading(v) {
+  document.getElementById('sendBtn').disabled = v;
+  document.getElementById('userInput').disabled = v;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  autoResize(input);
+  setLoading(true);
+  addMsg('user', text);
+  showThinking();
+
+  const delay = 900 + Math.random() * 800;
+  await new Promise(r => setTimeout(r, delay));
+
+  removeThinking();
+  const reply = pickResponse(text);
+  addMsg('tutor', reply);
+  setLoading(false);
+  input.focus();
+}
+
+function sendQuick(btn) {
+  const input = document.getElementById('userInput');
+  input.value = btn.textContent;
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+/* =========================================================
+   Socratic Coding Tutor — Styles
+   ========================================================= */
+ 
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ 
+/* ---------------------------------------------------------
+   Design Tokens
+   --------------------------------------------------------- */
+:root {
+  --bg:           #0d0f14;
+  --surface:      #13161e;
+  --surface2:     #1a1e2a;
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-bright:rgba(255, 255, 255, 0.14);
+  --text:         #e8e4dc;
+  --text-muted:   #7a7a8a;
+  --text-dim:     #4a4a5a;
+  --accent:       #c9a96e;
+  --accent-dim:   rgba(201, 169, 110, 0.12);
+  --accent-glow:  rgba(201, 169, 110, 0.06);
+  --user-bg:      #1e2130;
+  --tutor-bg:     #141820;
+  --tag:          #2a1f10;
+  --tag-text:     #c9a96e;
+  --green:        #5db896;
+  --green-dim:    rgba(93, 184, 150, 0.1);
+  --radius:       14px;
+  --radius-sm:    8px;
+  --mono:         'DM Mono', monospace;
+  --serif:        'Fraunces', serif;
+}
+ 
+/* ---------------------------------------------------------
+   Base
+   --------------------------------------------------------- */
+body {
+  background:   var(--bg);
+  color:        var(--text);
+  font-family:  var(--mono);
+  font-size:    14px;
+  font-weight:  300;
+  height:       100dvh;
+  display:      flex;
+  flex-direction: column;
+  overflow:     hidden;
+}
+ 
+/* ---------------------------------------------------------
+   Header
+   --------------------------------------------------------- */
+header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         16px 24px;
+  border-bottom:   1px solid var(--border);
+  background:      var(--surface);
+  flex-shrink:     0;
+  gap:             12px;
+}
+ 
+.header-left {
+  display:     flex;
+  align-items: center;
+  gap:         12px;
+  min-width:   0;
+}
+ 
+.logo-mark {
+  width:           34px;
+  height:          34px;
+  border-radius:   10px;
+  background:      var(--accent-dim);
+  border:          1px solid rgba(201, 169, 110, 0.3);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+}
+ 
+.logo-mark svg {
+  width:  16px;
+  height: 16px;
+}
+ 
+.header-title {
+  font-family:  var(--serif);
+  font-size:    17px;
+  font-weight:  300;
+  color:        var(--text);
+  font-style:   italic;
+  white-space:  nowrap;
+}
+ 
+.header-tag {
+  font-size:      10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:          var(--accent);
+  background:     var(--tag);
+  border:         1px solid rgba(201, 169, 110, 0.2);
+  padding:        3px 9px;
+  border-radius:  20px;
+  white-space:    nowrap;
+}
+ 
+.header-right {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+  flex-shrink: 0;
+}
+ 
+.status-dot {
+  width:        7px;
+  height:       7px;
+  background:   var(--green);
+  border-radius: 50%;
+  box-shadow:   0 0 6px rgba(93, 184, 150, 0.6);
+  animation:    pulse 3s ease-in-out infinite;
+}
+ 
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+ 
+.status-label {
+  font-size:      11px;
+  color:          var(--text-muted);
+  letter-spacing: 0.05em;
+}
+ 
+/* ---------------------------------------------------------
+   Chat area
+   --------------------------------------------------------- */
+.chat-container {
+  flex:            1;
+  overflow-y:      auto;
+  padding:         28px 0;
+  scroll-behavior: smooth;
+}
+ 
+.chat-container::-webkit-scrollbar       { width: 4px; }
+.chat-container::-webkit-scrollbar-track { background: transparent; }
+.chat-container::-webkit-scrollbar-thumb {
+  background:    var(--border-bright);
+  border-radius: 2px;
+}
+ 
+.messages-wrap {
+  max-width:      720px;
+  margin:         0 auto;
+  padding:        0 20px;
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+ 
+/* ---------------------------------------------------------
+   Welcome screen
+   --------------------------------------------------------- */
+.welcome {
+  text-align: center;
+  padding:    32px 20px 40px;
+  max-width:  520px;
+  margin:     0 auto;
+}
+ 
+.welcome-icon {
+  width:           56px;
+  height:          56px;
+  background:      var(--accent-dim);
+  border:          1px solid rgba(201, 169, 110, 0.25);
+  border-radius:   18px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  margin:          0 auto 20px;
+}
+ 
+.welcome-icon svg {
+  width:  24px;
+  height: 24px;
+}
+ 
+.welcome h2 {
+  font-family:   var(--serif);
+  font-size:     22px;
+  font-weight:   300;
+  color:         var(--text);
+  margin-bottom: 10px;
+  font-style:    italic;
+}
+ 
+.welcome p {
+  font-size:     13px;
+  color:         var(--text-muted);
+  line-height:   1.7;
+  margin-bottom: 24px;
+}
+ 
+.quick-prompts {
+  display:         flex;
+  flex-wrap:       wrap;
+  gap:             8px;
+  justify-content: center;
+}
+ 
+.quick-btn {
+  font-family:    var(--mono);
+  font-size:      12px;
+  font-weight:    300;
+  color:          var(--text-muted);
+  background:     var(--surface2);
+  border:         1px solid var(--border-bright);
+  border-radius:  var(--radius-sm);
+  padding:        7px 14px;
+  cursor:         pointer;
+  transition:     all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+ 
+.quick-btn:hover {
+  color:        var(--accent);
+  border-color: rgba(201, 169, 110, 0.3);
+  background:   var(--accent-glow);
+}
+ 
+/* ---------------------------------------------------------
+   Messages
+   --------------------------------------------------------- */
+.msg {
+  display:   flex;
+  gap:       14px;
+  padding:   10px 0;
+  animation: msgIn 0.3s ease both;
+}
+ 
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+ 
+.msg.user {
+  flex-direction: row-reverse;
+}
+ 
+.avatar {
+  width:         32px;
+  height:        32px;
+  border-radius: 10px;
+  flex-shrink:   0;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  font-size:     11px;
+  letter-spacing: 0.05em;
+  margin-top:    2px;
+}
+ 
+.avatar.tutor {
+  background: var(--accent-dim);
+  border:     1px solid rgba(201, 169, 110, 0.25);
+  color:      var(--accent);
+}
+ 
+.avatar.user-av {
+  background: var(--green-dim);
+  border:     1px solid rgba(93, 184, 150, 0.2);
+  color:      var(--green);
+}
+ 
+.bubble {
+  max-width: 78%;
+  min-width: 60px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+ 
+.msg.user .bubble {
+  text-align: right;
+}
+ 
+.bubble-inner {
+  display:       inline-block;
+  padding:       11px 16px;
+  border-radius: var(--radius);
+  font-size:     13.5px;
+  text-align:    left;
+}
+ 
+.msg.tutor .bubble-inner {
+  background:             var(--tutor-bg);
+  border:                 1px solid var(--border);
+  color:                  var(--text);
+  border-bottom-left-radius: 4px;
+}
+ 
+.msg.user .bubble-inner {
+  background:              var(--user-bg);
+  border:                  1px solid rgba(93, 184, 150, 0.12);
+  color:                   var(--text);
+  border-bottom-right-radius: 4px;
+}
+ 
+.bubble-meta {
+  font-size:      10px;
+  color:          var(--text-dim);
+  margin-top:     5px;
+  letter-spacing: 0.04em;
+}
+ 
+.msg.user  .bubble-meta { padding-right: 2px; }
+.msg.tutor .bubble-meta { padding-left:  2px; }
+ 
+code {
+  font-family:   var(--mono);
+  font-size:     12px;
+  background:    rgba(255, 255, 255, 0.06);
+  border:        1px solid var(--border-bright);
+  padding:       2px 6px;
+  border-radius: 4px;
+  color:         var(--accent);
+}
+ 
+/* ---------------------------------------------------------
+   Thinking indicator
+   --------------------------------------------------------- */
+.thinking {
+  display:   flex;
+  gap:       14px;
+  padding:   10px 0;
+  animation: msgIn 0.3s ease both;
+}
+ 
+.thinking-dots {
+  display:       flex;
+  gap:           4px;
+  padding:       14px 16px;
+  background:    var(--tutor-bg);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  border-bottom-left-radius: 4px;
+}
+ 
+.dot {
+  width:         5px;
+  height:        5px;
+  background:    var(--accent);
+  border-radius: 50%;
+  opacity:       0.4;
+  animation:     blink 1.2s ease-in-out infinite;
+}
+ 
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+ 
+@keyframes blink {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1); }
+}
+ 
+/* ---------------------------------------------------------
+   Input area
+   --------------------------------------------------------- */
+.input-area {
+  border-top:  1px solid var(--border);
+  background:  var(--surface);
+  padding:     16px 20px 20px;
+  flex-shrink: 0;
+}
+ 
+.input-wrap {
+  max-width: 720px;
+  margin:    0 auto;
+  display:   flex;
+  flex-direction: column;
+  gap:       10px;
+}
+ 
+.input-row {
+  display:     flex;
+  gap:         10px;
+  align-items: flex-end;
+}
+ 
+.input-box {
+  flex:          1;
+  background:    var(--surface2);
+  border:        1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding:       12px 16px;
+  font-family:   var(--mono);
+  font-size:     13.5px;
+  font-weight:   300;
+  color:         var(--text);
+  resize:        none;
+  outline:       none;
+  line-height:   1.6;
+  min-height:    48px;
+  max-height:    160px;
+  overflow-y:    auto;
+  transition:    border-color 0.2s;
+  letter-spacing: 0.01em;
+}
+ 
+.input-box::placeholder { color: var(--text-dim); }
+ 
+.input-box:focus {
+  border-color: rgba(201, 169, 110, 0.35);
+  background:   rgba(26, 30, 42, 0.8);
+}
+ 
+.send-btn {
+  width:           46px;
+  height:          46px;
+  border-radius:   var(--radius-sm);
+  background:      var(--accent-dim);
+  border:          1px solid rgba(201, 169, 110, 0.3);
+  color:           var(--accent);
+  cursor:          pointer;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  transition:      all 0.2s ease;
+  flex-shrink:     0;
+}
+ 
+.send-btn:hover {
+  background:   rgba(201, 169, 110, 0.2);
+  border-color: rgba(201, 169, 110, 0.5);
+}
+ 
+.send-btn:active   { transform: scale(0.95); }
+.send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+ 
+.send-btn svg {
+  width:  18px;
+  height: 18px;
+}
+ 
+.hint {
+  font-size:      11px;
+  color:          var(--text-dim);
+  letter-spacing: 0.04em;
+  text-align:     center;
+}
+ 
+.hint span { color: var(--text-muted); }
+ 
+/* ---------------------------------------------------------
+   Responsive
+   --------------------------------------------------------- */
+@media (max-width: 600px) {
+  header            { padding: 12px 16px; }
+  .header-tag       { display: none; }
+  .messages-wrap    { padding: 0 12px; }
+  .bubble           { max-width: 88%; }
+  .input-area       { padding: 12px 14px 16px; }
+}
+.clear-btn{
+  background:transparent;
+  color:var(--text-muted);
+  border:1px solid var(--border-bright);
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.clear-btn:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+}
